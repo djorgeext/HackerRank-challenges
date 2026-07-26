@@ -1,27 +1,25 @@
-import re
+import sys
 
-text_path = 'NLP/Easy/The-Trigram/the-trigram-testcases/input/input04.txt'
+def solve(text):
+    counts = {}
+    first_seen = {}
+    order = 0
 
-with open(text_path, 'r') as f:
-    text = f.read()
+    for sentence in text.split('.'):
+        words = sentence.strip().lower().split()
+        for i in range(len(words) - 2):
+            trigram = ' '.join(words[i:i+3])
+            if trigram not in counts:
+                counts[trigram] = 0
+                first_seen[trigram] = order
+                order += 1
+            counts[trigram] += 1
 
-phrases = [p.strip() for p in re.split(r"[,\.;:\!\?¿¡]+", text) if p.strip()]
-trigrams = {}
-for phrase in phrases:
-    words = phrase.split(' ')
-    words = [w.lower() for w in words]
-    if len(words) >= 3:
-        i = 0
-        while i <= (len(words) - 3):
-            trigram = " ".join(words[i:i+3])
-            if trigram in trigrams:
-                trigrams[trigram] += 1
-            else:
-                trigrams[trigram] = 1
-            i += 1
-    
-    else:
-        continue
+    if not counts:
+        return
 
-highest_trigram = max(trigrams, key=trigrams.get)
-print(highest_trigram)
+    best = max(counts, key=lambda t: (counts[t], -first_seen[t]))
+    print(best)
+
+if __name__ == '__main__':
+    solve(sys.stdin.read())
