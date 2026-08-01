@@ -1,7 +1,6 @@
 from nltk.tokenize import wordpunct_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 
 def text_similarity(text1, text2):
     vectorizer = TfidfVectorizer(
@@ -23,7 +22,13 @@ separator_set = text.index("*****")
 a_set = text[1:separator_set]
 b_set = text[separator_set+1:]
 
+matches = []
+for paragraph_a in a_set:
+    similarity = []
+    for paragraph_b in b_set:
+        similarity.append(text_similarity(paragraph_a, paragraph_b))
+    idx = similarity.index(max(similarity)) + 1
+    matches.append(idx)
 
 
-for paragraph in b_set:
-    print(text_similarity(paragraph, a_set[2]))
+print(matches)
