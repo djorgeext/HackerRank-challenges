@@ -1,8 +1,8 @@
-# Enter your code here. Read input from STDIN. Print output to STDOUT
 import sys
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.optimize import linear_sum_assignment
+sys.stdin = open('NLP/Medium/Stitch-the-Torn-Wiki/stitch-the-torn-wiki-testcases/input/input00.txt', 'r')
 
 def main():
     raw = sys.stdin.read().split('\n')
